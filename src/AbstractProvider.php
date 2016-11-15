@@ -134,8 +134,10 @@ abstract class AbstractProvider implements ProviderInterface
      */
     protected function assertRequiredOptions($key, array $options)
     {
-        $missing = array_diff_key(array_flip($this->getRequiredOptions($key)), $options);
-        if (!empty($missing)) {
+        foreach($this->getRequiredOptions($key) as $key){
+            if(isset($options[$key])&&!empty($options[$key])) {
+                continue;
+            }
             throw new \InvalidArgumentException(
                 '参数不完整，请指定'.$key.'参数: '.implode(', ', array_keys($missing))
             );
